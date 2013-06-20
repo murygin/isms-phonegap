@@ -49,8 +49,8 @@ fi
 
 function createAppInfoJar {
     pushd "$BUILD_PATH"/bin/templates/cordova/ApplicationInfo > /dev/null
-    javac ApplicationInfo.java
-    jar -cfe ../appinfo.jar ApplicationInfo ApplicationInfo.class
+    ~/jdk1.6.0_41/bin/javac ApplicationInfo.java
+    ~/jdk1.6.0_41/bin/jar -cfe ../appinfo.jar ApplicationInfo ApplicationInfo.class
     popd > /dev/null
 }
 
@@ -77,7 +77,7 @@ function replace {
 # we do not want the script to silently fail
 trap 'previous_command=$this_command; this_command=$BASH_COMMAND' DEBUG
 trap on_error ERR
-ANDROID_BIN="${ANDROID_BIN:=$(~/Android/sdk/tools/android)}"
+ANDROID_BIN="/home/sernet/Android/sdk/tools/android"
 #ANDROID_BIN="${ANDROID_BIN:=$( which android )}"
 PACKAGE_AS_PATH=$(echo $PACKAGE | sed 's/\./\//g')
 ACTIVITY_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/$ACTIVITY.java
@@ -85,9 +85,10 @@ MANIFEST_PATH="$PROJECT_PATH"/AndroidManifest.xml
 
 #TARGET=$("$ANDROID_BIN" list targets | grep id: | tail -1 | cut -f 2 -d ' ' )
 #API_LEVEL=$("$ANDROID_BIN" list target | grep "API level:" | tail -n 1 | cut -f 2 -d ':' | tr -d ' ')
-TARGET=$TARGET || $("$ANDROID_BIN" list targets | grep id: | tail -1 | cut -f 2 -d ' ' )
-API_LEVEL=$API_LEVEL || $("$ANDROID_BIN" list target | grep "API level:" | tail -n 1 | cut -f 2 -d ':' | tr -d ' ')
-
+#TARGET=$TARGET || $("$ANDROID_BIN" list targets | grep id: | tail -1 | cut -f 2 -d ' ' )
+#API_LEVEL=$API_LEVEL || $("$ANDROID_BIN" list target | grep "API level:" | tail -n 1 | cut -f 2 -d ':' | tr -d ' ')
+TARGET=1
+API_LEVEL=17
 
 # check that build targets exist
 #if [ -z "$TARGET" ] || [ -z "$API_LEVEL" ]
@@ -119,7 +120,9 @@ then
 fi
 
 # create new android project
+echo ""$ANDROID_BIN" create project --target $TARGET --path "$PROJECT_PATH" --package $PACKAGE --activity $ACTIVITY &> /dev/null"
 "$ANDROID_BIN" create project --target $TARGET --path "$PROJECT_PATH" --package $PACKAGE --activity $ACTIVITY &> /dev/null
+
 
 # copy project template
 cp -r "$BUILD_PATH"/bin/templates/project/assets "$PROJECT_PATH"
