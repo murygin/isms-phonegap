@@ -29,6 +29,9 @@ public class HybridApp extends DroidGap
     {
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
+        
+        //Set Timeout to 50 seconds
+        super.setIntegerProperty("loadUrlTimeoutValue", 50000);
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
     }
