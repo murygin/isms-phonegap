@@ -19,3 +19,19 @@
         	padding-left: 10px;
         	padding-right: 10px;
 }
+
+
+#panel_right-popup {
+    right: 0 !important;
+    left: auto !important;
+}
+#panel_right {
+    width: 200px;
+    border: 1px solid #000;
+    border-right: none;
+    background: rgba(0,0,0,.5);
+    margin: -1px 0;
+}
+#panel_right .ui-btn {
+    margin: 2em 15px;
+}
