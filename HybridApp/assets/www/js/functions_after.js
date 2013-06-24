@@ -1,3 +1,8 @@
+//Refresh the page
+function refresh() {
+	window.location.reload("index.html");
+}
+
 $( document ).bind( 'mobileinit', function(){
   $.mobile.loader.prototype.options.text = "loading";
   $.mobile.loader.prototype.options.textVisible = false;
@@ -11,7 +16,8 @@ $(document).ready(function() {
 			var port = "8080";
 			var user = "";
 			var password = "";
-			
+			var date = new Date();
+			var active_line;
 			
 
 	    	$("#connection_button").click(function() {
@@ -30,7 +36,13 @@ $(document).ready(function() {
 	    	        	 	$('#line'+i).append("<div class='first_column'>"+item.title+"</div>");
 	    	        	 	$('#line'+i).append("<div class='second_column'>"+item.url+"</div>");
 	    	        	 	$('#line'+i).append("<div class='third_column'>"+item.umsetzung+"</div>");
-	    	        	 	$('#line'+i).append("<div class='fourth_column'>"+item.umsetzungBis+"</div>");
+	    	        	 	formattedDate = new Date(item.umsetzungBis);
+	    	        	 	$('#line'+i).append("<div class='fourth_column'>"+formattedDate.toString('dddd, MMMM ,yyyy')+"</div>");
+	    	        	 	
+	    	        	 	$('#line'+i).click(function() {
+	    	        	 		active_line = $(this);
+	    	        	 		alert(active_line.children('.first_column').html());
+	    	        	 	});
 	    	        	 });
 	    	         },
 	    	         error: function(jqXHR, exception) {
@@ -64,10 +76,10 @@ $(document).ready(function() {
 	    	
 	    	//Error Box
 	    	$("#connection_error_button").click(function() {
-	    		$("#signIn").popup("close");
+	    		$("#connection_error").popup("close");
 	    	})
 	    	
-	    	$("#test").click(function() {	    		
+	    	$("#connection_error").click(function() {	    		
 	    		 $("#connection_error").popup("open");	
 	    	})
 			

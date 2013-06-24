@@ -1,24 +1,37 @@
 <!-- CSS document -->
+body{}
+
+#bsi_controls{
+	margin-top:50px;
+}
+
+div[id*='line'] {
+	height:40px;
+	border:1px solid black;
+}
+
 .first_column{	
-        	display:table-cell;
-        	padding-left: 10px;
-        	padding-right: 10px;
+	display:table-cell;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .second_column{	
-        	display:table-cell;
-        	padding-left: 10px;
-        	padding-right: 10px;
+	display:table-cell;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .third_column{	
-      		display:table-cell;
-      		padding-left: 10px;
-        	padding-right: 10px;
+	display:table-cell;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .fourth_column{	
-        	display:table-cell;
-        	padding-left: 10px;
-        	padding-right: 10px;
+	display:table-cell;
+	padding-left: 10px;
+	padding-right: 10px;
 }
+
+
 
 
 #panel_right-popup {

@@ -9,23 +9,20 @@
         
 
         <!-- Stylesheets -->
-  		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
-  		<link rel="stylesheet" type="text/css" href="css/index.css" />
-  		<link rel="stylesheet" type="text/css" href="css/jquery.loadmask.css" />
+        <link rel="stylesheet" href="mobile_theme/themes/verinice.css" />
+  		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile.structure-1.3.1.min.css" />
+  		<link rel="stylesheet" type="text/css" href="css/index.css" /> 
+  		
   		
   		<!-- Meta declarations -->
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         
         <title>Verinice mobile portal</title>  
     </head>
     <body>
-    	<script>
-    	
-		alert("Anwendung gestartet!");
  
-    	</script>
 		<div data-role="page" id="todo">
 		
 			
@@ -83,7 +80,7 @@
         	
 			<!-- Header -->
 			<div data-role="header" data-position="fixed">
-				<a href="index.html" data-icon="check">Startseite neu lade</a>
+				<a data-icon="check" onclick="refresh()">Startseite neu laden</a>
 				<h1>ToDo</h1>
 				<a href="#panel_right" data-rel="popup" data-transition="slide" data-position-to="window" data-icon="settings">Open panel</a>
 				</div>
@@ -92,10 +89,7 @@
 			
 			<!-- Content -->
 			<div id="content" data-role="content">	
-			   
-			   <div id="loadingDiv"> Loading</div>
-			   
-			   <a id="test">test</a>
+
 			   
 				<div id="bsi_controls">
 		       		<div id="line" style="display:table-row">

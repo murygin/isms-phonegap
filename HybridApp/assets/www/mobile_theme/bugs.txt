@@ -1,0 +1,2 @@
+1) In task.jsf - mobile application: By clicking on "OpenNext" or "SaveandOpenNext" disappears the footer and appears again after the next click. This might be due to compability problems with primefaces-3.3.1.jar
+2) 
