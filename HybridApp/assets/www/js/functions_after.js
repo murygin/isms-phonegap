@@ -52,7 +52,7 @@ function iso_27000_handle_click_on_list_item(line){
 	active_iso_27000_item = get_object_for_iso_27000_task_name(iso_27000_task_name);
 
 	save_variables_for_page_change();
-	$.mobile.changePage("#bsi_task_editor");
+	$.mobile.changePage("#iso_27000_tasks_editor");
 }
 
 //Save variables in local Storage
@@ -79,7 +79,30 @@ $(document).on( "pagebeforeshow", "#bsi_task_editor", function() {
 	active_bsi_task_item = userInfo.active_bsi_controls_item;
 	active_iso_27000_item = userInfo.active_iso_27000_item;
 	bsi_control_realization_number = umsetzung_mapping("id");
-	$("#bsi_editor_realization_dropdown").val("3");
+});
+
+//To make the values of these variables available in the other page
+$(document).on( "pagebeforeshow", "#iso_27000_tasks", function() {
+	var userInfo = JSON.parse(localStorage.getItem("Credentials"));
+	var userName = userInfo.user;
+	user = userInfo.user;
+	password = userInfo.password;
+	ip_address = userInfo.ip_address;
+	port = userInfo.port;
+	active_bsi_task_item = userInfo.active_bsi_controls_item;
+	active_iso_27000_item = userInfo.active_iso_27000_item;
+});
+
+//To make the values of these variables available in the other page
+$(document).on( "pagebeforeshow", "#iso_27000_tasks_editor", function() {
+	var userInfo = JSON.parse(localStorage.getItem("Credentials"));
+	var userName = userInfo.user;
+	user = userInfo.user;
+	password = userInfo.password;
+	ip_address = userInfo.ip_address;
+	port = userInfo.port;
+	active_bsi_task_item = userInfo.active_bsi_controls_item;
+	active_iso_27000_item = userInfo.active_iso_27000_item;
 });
 
 function load_bsi_editor(){
@@ -93,24 +116,11 @@ function load_bsi_editor(){
 			active_bsi_task_item.umsetzung = $("#bsi_editor_realization_dropdown").val();
 			var json_string = JSON.stringify(active_bsi_task_item);
 			var address = "bsi_controls";
-			alert("http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/post");
+			//alert("http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/post");
 			
-			$.ajax({ 
-				type: "POST",   
-		        url: "http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/post",
-		        username: user,
-		        password: password,
-		        data: json_string,
-		        dataType: "json",
-		        async: false, 
-		        success : function(data)
-		        {		 
-		       	 	alert("Saving: " + data.Saving);
-		        },
-		        error: function(jqXHR, exception) {
-		        	alert('Uncaught Error.\n' + jqXHR.responseText);
-		        }
-			});	
+			//Send data to server
+			create_ajax_post(address, json_string);
+			
 			
 			//Switch back to normal overview
 			$.mobile.changePage("#bsi_controls");
@@ -122,6 +132,61 @@ function load_bsi_editor(){
 		$.mobile.changePage("#bsi_controls");
 	})
 	
+}
+
+//Ajax POST Request 
+function create_ajax_post(address, item){
+	$.ajax({ 
+		type: "POST",   
+        url: "http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/post",
+        username: user,
+        password: password,
+        data: item,
+        dataType: "json",
+        async: false, 
+        success : function(data)
+        {		 
+       	 	alert("Saving: " + data.Saving);
+        },
+        error: function(jqXHR, exception) {
+        	alert('Uncaught Error.\n' + jqXHR.responseText);
+        }
+	});	
+}
+
+function load_iso_27000_tasks_editor(){
+	
+	//Clear editor from old objects
+	$("#iso_27000_task_name").empty();
+	$("#iso_27000_task_object input").empty();
+	$("#iso_27000_task_dueDate").empty();
+	$("#iso_27000_task_description p").empty();
+	
+	//Append new objects
+	$("#iso_27000_task_name").append("<a>"+ active_iso_27000_item.name +"</a>");
+	$("#iso_27000_task_object input").val(active_iso_27000_item.controlTitle);
+	formattedDate = new Date(active_iso_27000_item.dueDate);
+	$("#iso_27000_task_dueDate").append("<a>"+ formattedDate.toString('dddd, MMMM ,yyyy') +"</a>");
+	$("#iso_27000_task_description p").html(active_iso_27000_item.description);
+	
+	$("#iso_27000_editor_save").unbind();
+	$("#iso_27000_editor_save").click(function() {
+		
+		//Change title in global object - problem: if request fails is data different!
+		active_iso_27000_item.controlTitle = $("#iso_27000_task_object input").val();
+		var address = "iso_27000";
+		var json_string = JSON.stringify(active_iso_27000_item);
+		//Send data to server
+		create_ajax_post(address, json_string);
+		
+		
+		alert("save");
+	});
+	
+	$("#iso_27000_editor_cancel").unbind();
+	$("#iso_27000_editor_cancel").click(function() {
+		$.mobile.changePage("#iso_27000_tasks");
+	});
 }
 
 
@@ -188,7 +253,7 @@ function get_object_for_iso_27000_task_name(iso_27000_task_name){
 }
 
 function ajax_request(address) {
-	alert("http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/get");
+	//alert("http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/get");
 	
 	$.ajax({ 
 		type: "GET",   
@@ -317,19 +382,25 @@ $(document).ready(function() {
 				}			
 			});
 			
-			$(document).bind( "pagechange", "#iso_27000", function() {
-				if ($.mobile.activePage.attr('id') == "iso_27000"){
+			$(document).bind( "pagechange", "#iso_27000_tasks", function() {
+				if ($.mobile.activePage.attr('id') == "iso_27000_tasks"){
 					ajax_request("iso_27000");
 				}			
 			});
+			
+			$(document).bind( "pagechange", "#iso_27000_tasks_editor", function() {
+				if ($.mobile.activePage.attr('id') == "iso_27000_tasks_editor"){
+					load_iso_27000_tasks_editor();
+				}			
+			});
+			
+			$("#iso_27000_tasks_link").click(function() {
+				save_variables_for_page_change();
+			})
 	
 	    	$("#connection_button").click(function() {
 	    		ajax_request("bsi_controls");
 	    	})
-	    	
-	    	$(".first_column").click(function() {
-				alert("click");
-			})
 	    	
 	    	//Error Box
 	    	$("#connection_error_button").click(function() {
