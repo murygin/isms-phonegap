@@ -10,6 +10,20 @@ div[id*='line'] {
 	border:1px solid black;
 }
 
+#bsi_controls_table_heading{
+	color: green;
+}
+
+.odd{
+	background-color:#ffe;
+}
+.odd{
+	background-color:#ffe;
+}
+.hover{
+	background-color:#fee;
+}
+
 .first_column{	
 	display:table-cell;
 	padding-left: 10px;
