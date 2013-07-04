@@ -11,6 +11,8 @@ var active_bsi_task_item;
 var bsi_controls_active_line;
 var login_unsuccessful = true;
 var bsi_control_realization_number;
+var active_iso_27000_item;
+var iso_27000_active_line;
 
 
 
@@ -19,7 +21,7 @@ function refresh() {
 	window.location.reload("index.html");
 }
 
-function handle_click_on_list_item(line){
+function bsi_controls_handle_click_on_list_item(line){
 	
 	//Handle hover for lines
 	if (bsi_controls_active_line != null){
@@ -37,6 +39,22 @@ function handle_click_on_list_item(line){
 	
 }
 
+function iso_27000_handle_click_on_list_item(line){
+	//Handle hover for lines
+	if (iso_27000_active_line != null){
+		iso_27000_active_line.removeClass("hover");
+	}
+	line.addClass("hover");
+	iso_27000_active_line = line;
+	
+	//Get iso_27000 object from name
+	var iso_27000_task_name = line.children(".first_column").text();
+	active_iso_27000_item = get_object_for_iso_27000_task_name(iso_27000_task_name);
+
+	save_variables_for_page_change();
+	$.mobile.changePage("#bsi_task_editor");
+}
+
 //Save variables in local Storage
 function save_variables_for_page_change(){
 	var userInfo = {
@@ -44,7 +62,8 @@ function save_variables_for_page_change(){
             "port": port,
             "user": user,
             "password": password,
-            "active_item": active_bsi_task_item,
+            "active_bsi_controls_item": active_bsi_task_item,
+            "active_iso_27000_item": active_iso_27000_item,
     };
     localStorage.setItem('Credentials', JSON.stringify(userInfo));
 }
@@ -57,7 +76,8 @@ $(document).on( "pagebeforeshow", "#bsi_task_editor", function() {
 	password = userInfo.password;
 	ip_address = userInfo.ip_address;
 	port = userInfo.port;
-	active_bsi_task_item = userInfo.active_item;
+	active_bsi_task_item = userInfo.active_bsi_controls_item;
+	active_iso_27000_item = userInfo.active_iso_27000_item;
 	bsi_control_realization_number = umsetzung_mapping("id");
 	$("#bsi_editor_realization_dropdown").val("3");
 });
@@ -155,6 +175,18 @@ function get_object_for_bsi_task_name(bsi_task_name){
 	return match;
 }
 
+function get_object_for_iso_27000_task_name(iso_27000_task_name){
+	var data = iso_27000_json_data;
+	var match;
+	$.each(data, function(i,item){
+		if (item.name == iso_27000_task_name){
+			match = item;
+			return false;
+		}
+	});
+	return match;
+}
+
 function ajax_request(address) {
 	alert("http://" + ip_address + ":" + port + "/veriniceserver/rest/json/" + address + "/get");
 	
@@ -168,10 +200,10 @@ function ajax_request(address) {
         {		 
        	 if (address == "bsi_controls"){
        		bsi_controls_json_data = data;
-       		append_table(data);
+       		bsi_controls_append_table(data);
        	 } else if ((address == "iso_27000")){
        		iso_27000_json_data = data;
-       		alert(iso_27000_json_data);
+       		iso_27000_append_table(data);
        	 } else if ((address == "auth")){
        		alert("Authentifizierung erfolgreich!");
        		login_unsuccessful = false;
@@ -201,7 +233,7 @@ function ajax_request(address) {
 	});	
 }
 
-function append_table(data){
+function bsi_controls_append_table(data){
 	
 	 //Empty table for refresh
 	 $('#bsi_controls_table').empty();
@@ -219,13 +251,14 @@ function append_table(data){
    	 	$('#bsi_controls_table').append("<div id='line"+i+"' style='display:table-row'></div>");
    	 	$('#line'+i).append("<div class='first_column'>"+item.title+"</div>");
    	 	$('#line'+i).append("<div class='second_column'>"+item.url+"</div>");
+   	 	//Save item in global variable for umsetzung_mapping
    	 	active_bsi_task_item = item;
    	 	$('#line'+i).append("<div class='third_column'>"+ umsetzung_mapping("name") +"</div>");
    	 	formattedDate = new Date(item.umsetzungBis);
    	 	$('#line'+i).append("<div class='fourth_column'>"+formattedDate.toString('dddd, MMMM ,yyyy')+"</div>");
    	 	
    	 	$('#line'+i).click(function() {
-   	 		handle_click_on_list_item($(this));
+   	 		bsi_controls_handle_click_on_list_item($(this));
    	 	});
    	 	
    	 	if (i%2 == 0){
@@ -236,6 +269,36 @@ function append_table(data){
    	 });
 }
 
+function iso_27000_append_table(data){
+	$('#iso_27000_table').empty();
+	
+	// Add heading
+	$('#iso_27000_table').append("<div id='iso_27000_table_heading' style='display:table-row'></div>");
+	$('#iso_27000_table_heading').append("<div class='first_column'>Name des Tasks</div>");
+	$('#iso_27000_table_heading').append("<div class='second_column'>Objekt</div>");
+	$('#iso_27000_table_heading').append("<div class='third_column'>Due</div>");
+	
+	//Fill new table with new data
+	$.each(data, function(i,item){
+   	 	//alert(item.title);	    	        	 	
+   	 	$('#iso_27000_table').append("<div id='line"+i+"' style='display:table-row'></div>");
+   	 	$('#line'+i).append("<div class='first_column'>"+item.name+"</div>");
+   	 	$('#line'+i).append("<div class='second_column'>"+item.controlTitle+"</div>");
+   	 	active_iso_27000_item = item;
+   	 	formattedDate = new Date(item.dueDate);
+   	 	$('#line'+i).append("<div class='fourth_column'>"+formattedDate.toString('dddd, MMMM ,yyyy')+"</div>");
+   	 	
+   	 	$('#line'+i).click(function() {
+   	 		iso_27000_handle_click_on_list_item($(this));
+   	 	});
+   	 	
+   	 	if (i%2 == 0){
+   	 		$('#line'+i).addClass("even");
+   	 	} else{
+   	 		$('#line'+i).addClass("odd");
+   	 	}
+   	 });
+}
 
 $(document).ready(function() {
 			

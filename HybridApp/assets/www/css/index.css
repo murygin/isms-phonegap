@@ -1,9 +1,6 @@
 <!-- CSS document -->
 body{}
 
-#bsi_controls{
-	margin-top:50px;
-}
 
 div[id*='line'] {
 	height:40px;
