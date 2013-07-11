@@ -106,7 +106,15 @@ $(document).on( "pagebeforeshow", "#iso_27000_tasks_editor", function() {
 });
 
 function load_bsi_editor(){
+	$("#bsi_editor_task_name").empty();
+	$("#bsi_editor_until").empty();
+	
 	$("#bsi_editor_realization_dropdown").val(bsi_control_realization_number).change();
+	$("#bsi_editor_task_name").append("<a> Name: " + active_bsi_task_item.title + "</a>");
+	
+	formattedDate = new Date(active_bsi_task_item.umsetzungBis);
+	$("#bsi_editor_until").append("<a> Umsetzung bis: "+ formattedDate.toString('dddd, MMMM ,yyyy') +"</a>");
+	
 	
 	//Unbind and bind otherwise there would be more event handlers over time
 	$("#bsi_editor_save").unbind();
@@ -397,10 +405,6 @@ $(document).ready(function() {
 			$("#iso_27000_tasks_link").click(function() {
 				save_variables_for_page_change();
 			})
-	
-	    	$("#connection_button").click(function() {
-	    		ajax_request("bsi_controls");
-	    	})
 	    	
 	    	//Error Box
 	    	$("#connection_error_button").click(function() {

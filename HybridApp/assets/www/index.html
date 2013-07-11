@@ -47,8 +47,8 @@
 		    <!-- Panel Right -->
 			<div data-role="popup" id="panel_right" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">			
 				<a id="signIn_link" href="#signIn" data-rel="popup" data-icon="settings" data-theme="a" data-role="button" data-mini="true">Login</a>
-				<a id="connection_box_link" href="#connection_box" data-rel="popup" data-icon="settings" data-theme="a" data-role="button" data-mini="true">Connection</a>
-				<div id="connection_button" data-icon="settings" data-role="button" data-mini="true">Get Bsi_Controls</div>	 		
+				<a id="connection_box_link" href="#connection_box" data-rel="popup" data-icon="settings" data-theme="a" data-role="button" data-mini="true">Connection</a>		
+				<a id="bsi_controls_link" href="#bsi_controls" data-icon="settings" data-role="button" data-mini="true">Bsi_Controls</a>
 				<a id="iso_27000_tasks_link" href="#iso_27000_tasks" data-icon="settings" data-role="button" data-mini="true">ISO 27000 Tasks</a>		 
 			</div>
 			
@@ -84,7 +84,7 @@
 			<!-- Header -->
 			<div data-role="header" data-position="fixed">
 				<a data-icon="check" onclick="refresh()">Startseite neu laden</a>
-				<h1>ToDo</h1>
+				<h1>BSI Controls</h1>
 				<a href="#panel_right" data-rel="popup" data-transition="slide" data-position-to="window" data-icon="settings">Open panel</a>
 				</div>
 			
@@ -115,7 +115,7 @@
         	<!-- Header -->
 			<div data-role="header" data-position="fixed">
 				<a data-rel="back" data-icon="back">Zurück</a>
-				<h1>ToDo</h1>
+				<h1>BSI Controls Editor</h1>
 				</div>
 			
 			
@@ -126,9 +126,19 @@
 			   
 				<div id="bsi_editor">
 					
-					<div class="ui-grid-a">
+					<div class="ui-grid-a" style="font-size:20px;">
+					
+						<div class="ui-block-a" id="bsi_editor_task_name">
+							
+						</div>
+					    <div class="ui-block-b" id="bsi_editor_until">
+					    	
+					    </div>
+					</div>
+					<div class="ui-grid-solo">
 						<div class="ui-block-a" id="bsi_editor_realization">
-							<div data-role="fieldcontain">
+							
+					    	<div data-role="fieldcontain">
 							    <label for="realization_dropdown">Realisierung:</label>
 							    <select name="realization_dropdown" id="bsi_editor_realization_dropdown" data-native-menu="false">
 							        <option value="1">Entbehrlich</option>
@@ -139,10 +149,8 @@
 							    </select>
 							</div>
 						</div>
-					    <div class="ui-block-b" id="bsi_editor_until"></div>
 					</div>
-					<div class="ui-grid-solo">
-					    <div class="ui-block-a" id="bsi_editor_comment"></div>
+					    
 					</div>
 				</div>
        			<div data-role="button" id="bsi_editor_save">Speichern</div>
@@ -164,15 +172,14 @@
         	<!-- Header -->
 			<div data-role="header" data-position="fixed">
 				<a data-rel="back" data-icon="back">Zurück</a>
-				<h1>Task</h1>
+				<h1>ISO 27000 Tasks</h1>
+				<a id="bsi_controls_link" href="#bsi_controls" data-icon="settings" data-role="button" data-mini="true">Bsi_Controls</a>
 			</div>
 			
 			
 			
 			<!-- Content -->
 			<div id="content" data-role="content">	
-			
-			This is ISO 27000 Tasks   
 				
 			<!-- Dynamic generated content will be inserted here! -->
 			<div id="iso_27000_table"></div>
@@ -193,6 +200,7 @@
 			<div data-role="header" data-position="fixed">
 				<a data-rel="back" data-icon="back">Zurück</a>
 				<h1>Task</h1>
+				<a id="bsi_controls_link" href="#bsi_controls" data-icon="settings" data-role="button" data-mini="true">Bsi_Controls</a>
 			</div>
 			
 			
