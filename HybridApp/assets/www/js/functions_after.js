@@ -151,6 +151,10 @@ function create_ajax_post(address, item){
         password: password,
         data: item,
         dataType: "json",
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
         async: false, 
         success : function(data)
         {		 
