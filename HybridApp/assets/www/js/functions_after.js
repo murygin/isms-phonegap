@@ -33,8 +33,8 @@ function bsi_controls_handle_click_on_list_item(line){
 	//Get bsi_object from name
 	var bsi_task_name = line.children(".first_column").text();
 	active_bsi_task_item = get_object_for_bsi_task_name(bsi_task_name);
-
-	save_variables_for_page_change();
+	
+	saveVariablesForPageChange();
 	$.mobile.changePage("#bsi_task_editor");
 	
 }
@@ -51,12 +51,12 @@ function iso_27000_handle_click_on_list_item(line){
 	var iso_27000_task_name = line.children(".first_column").text();
 	active_iso_27000_item = get_object_for_iso_27000_task_name(iso_27000_task_name);
 
-	save_variables_for_page_change();
+	saveVariablesForPageChange();
 	$.mobile.changePage("#iso_27000_tasks_editor");
 }
 
 //Save variables in local Storage
-function save_variables_for_page_change(){
+function saveVariablesForPageChange();{
 	var userInfo = {
             "ip_address": ip_address,
             "port": port,
@@ -407,7 +407,7 @@ $(document).ready(function() {
 			});
 			
 			$("#iso_27000_tasks_link").click(function() {
-				save_variables_for_page_change();
+				saveVariablesForPageChange();
 			})
 	    	
 	    	//Error Box
