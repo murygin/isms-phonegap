@@ -56,7 +56,7 @@ function iso_27000_handle_click_on_list_item(line){
 }
 
 //Save variables in local Storage
-function saveVariablesForPageChange();{
+function saveVariablesForPageChange(){
 	var userInfo = {
             "ip_address": ip_address,
             "port": port,
