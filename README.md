@@ -1,4 +1,1 @@
-bachelorarbeit_phonegap
-=======================
-
-Hybrid App 
+An ISMS prototyp made with PhoneGap
